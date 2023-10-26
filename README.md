@@ -48,3 +48,7 @@ Abaixo são especificadas regras que incidem sobre o usuo do sistema:
 - O sistema será avaliado nos seguintes critérios:
   - Implementação dos requisitos funcionais e regras de negócio (6 pontos)
   - Design (4 pontos)
+
+
+### Descrição
+- Nosso trabalho é sobre games
