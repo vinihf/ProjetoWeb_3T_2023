@@ -28,6 +28,7 @@ Abaixo são especificadas regras que incidem sobre o usuo do sistema:
 - [ ] Um item consiste em uma imagem de algo
 - [ ] O ranking deve ser ordenado pelo número de avaliações positivas ou negativas
 - [ ] O sistema deve iniciar com pelo menos 15 itens cadastrados
+- [ ] Uma pessoa só pode votar uma vez em cada item
 
 ### Instruções fundamentais
 - A entrega do projeto será realizada via repositório do github.
