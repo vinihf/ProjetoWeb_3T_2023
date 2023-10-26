@@ -52,3 +52,4 @@ Abaixo são especificadas regras que incidem sobre o usuo do sistema:
 
 ### Descrição
 - Nosso trabalho é sobre games
+- Gustavo, Victor, Ezquiel, Mathias
