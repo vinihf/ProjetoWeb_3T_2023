@@ -42,7 +42,7 @@ $conn->close();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="" method="POST" autocomplete="off">
+                <form action="" method="POST" autocomplete="off" onsubmit="return validateEmail()">
                     <h2>Register</h2>
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
@@ -51,7 +51,7 @@ $conn->close();
                     </div>
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" name="login" required>
+                        <input type="email" name="login" id="email" required>
                         <label for="">Email</label>
                     </div>
                     <div class="inputbox">
@@ -69,6 +69,19 @@ $conn->close();
     </section>
 </body>
 </html>
+<script>
+function validateEmail() {
+    var emailInput = document.getElementById("email");
+    var email = emailInput.value;
+
+    if (email.endsWith("@aluno.feliz.ifrs.edu.br")) {
+        return true;
+    } else {
+        alert("O domínio do e-mail deve ser @aluno.feliz.ifrs.edu.br.");
+        return false; 
+    }
+}
+</script>
 <style>
     *{
     margin: 0;
