@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (password_verify($senha, $hashSenhaArmazenada)) {
                 $_SESSION['id'] = $usuarios[0]['id'];
+                $_SESSION['tipo'] = $usuarios[0]['role'];
                 header("location: index.php");
                 exit();
             } else {

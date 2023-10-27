@@ -1,7 +1,9 @@
 <?php
 include "db/database.php";
 
-$sql_items = "SELECT * FROM items WHERE id = 4";
+$idItem = $_GET['id'];
+
+$sql_items = "SELECT * FROM items WHERE id = $idItem";
 $resultado = $conn ->query($sql_items);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -13,7 +15,7 @@ if (isset($_POST['salvar'])) {
         $caminhoArquivo = $uploadDir . $nomeArquivo;
 
         if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $caminhoArquivo)) {
-            $sql = "UPDATE items SET name = '{$_POST['name']}', image_url = '$caminhoArquivo' WHERE id = 4";
+            $sql = "UPDATE items SET name = '{$_POST['name']}', image_url = '$caminhoArquivo' WHERE id = $idItem";
             $resultado = $conn->query($sql);
         }
     }
@@ -45,7 +47,7 @@ if (isset($_POST['salvar'])) {
         <label for="imagem">Imagem do Livro:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
         <input type="submit" name="salvar" value="Salvar Edições">
-        <a href=""><input type="button" value="Voltar" name="voltar"></a>
+        <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
         <?php endforeach;?>
     </form>
 </body>

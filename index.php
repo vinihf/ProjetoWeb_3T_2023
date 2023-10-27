@@ -1,3 +1,13 @@
+<?php
+include "db/database.php";
+
+$sql = "SELECT * FROM items";
+
+$resultado = $conn->query($sql);
+
+$items = $resultado->fetch_all(MYSQLI_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +21,16 @@
         <h1>Rate The Game</h1>
         <a href="logout.php"><input type="button" value="Logout" name="logout"></a>
     </header>
-    <a href="cadastrar_jogo.php">Cadastrar Jogo</a>
+    <?php if($_SESSION['tipo'] == "manager") : ?>
+    
+        <a href="cadastrar_jogo.php">Cadastrar Jogo</a>
+        <?php foreach($items as $item) : ?>
+            <a href="editar_jogo.php?id=<?php echo $item['id']; ?>"><div class="box">
+                <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
+                <p><?php echo $item['name']; ?></p>
+            </div>
+            </a>
+        <?php endforeach;?>
+    <?php endif;?>
 </body>
 </html>
