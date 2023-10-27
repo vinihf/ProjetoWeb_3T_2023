@@ -7,17 +7,17 @@ Em grupos formados por até 4 pessoas, vocês devem desenvolver um sistema que, 
 O sistema deve possuir dois papéis para as pessoas que vão o utilizar com permissões distintas: pessoa usuária e gerente. Abaixo vocês podem conferir quais são as atividades que podem/devem ser realizadas por cada papel.
 
 #### Pessoa usuária
-- [ ] Criar e editar informações de pessoa usuária (e-mail, senha, nome)
-- [ ] Fazer login e logout no sistema
+- [ X ] Criar e editar informações de pessoa usuária (e-mail, senha, nome)
+- [ X ] Fazer login e logout no sistema
 - [ ] Classificar itens (Indicar se gosta de uma série, se comeria uma comida, etc).
 - [ ] Visualizar rankings dos itens classificados como mais queridos
 - [ ] Visualizar rankings dos itens classificados como menos queridos
 - [ ] Ordenar de forma crescente ou decrescente os rankings de classificações
 
 #### Gerente
-- [ ] A pessoa que será gerente deve ser cadastrada no banco previamente (user: admin e password: senha123)
-- [ ] Fazer login e logout no sistema
-- [ ] Visualizar ranking dos itens classificados
+- [ X ] A pessoa que será gerente deve ser cadastrada no banco previamente (user: admin e password: senha123)
+- [ X ] Fazer login e logout no sistema
+- [  ] Visualizar ranking dos itens classificados
 - [ ] Ordenar de forma crescente ou decrescente o ranking de classificações
 - [ ] Listar, adicionar, editar e excluir itens
 
