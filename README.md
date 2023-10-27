@@ -9,7 +9,7 @@ O sistema deve possuir dois papéis para as pessoas que vão o utilizar com perm
 #### Pessoa usuária
 - [x] Criar e editar informações de pessoa usuária (e-mail, senha, nome)
 - [x] Fazer login e logout no sistema
-- [ ] Classificar itens (Indicar se gosta de uma série, se comeria uma comida, etc).
+- [x] Classificar itens (Indicar se gosta de uma série, se comeria uma comida, etc).
 - [ ] Visualizar rankings dos itens classificados como mais queridos
 - [ ] Visualizar rankings dos itens classificados como menos queridos
 - [ ] Ordenar de forma crescente ou decrescente os rankings de classificações

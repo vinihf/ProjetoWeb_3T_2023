@@ -56,7 +56,7 @@ $conn->close();
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input type="password" name="senha" required>
+                        <input type="password" name="senha" minlength="8" required>
                         <label for="">Password</label>
                     </div>
                     <button name="bttn">Registro</button>
