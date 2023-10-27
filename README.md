@@ -19,7 +19,7 @@ O sistema deve possuir dois papéis para as pessoas que vão o utilizar com perm
 - [x] Fazer login e logout no sistema
 - [ ] Visualizar ranking dos itens classificados
 - [ ] Ordenar de forma crescente ou decrescente o ranking de classificações
-- [ ] Listar, adicionar, editar e excluir itens
+- [x] Listar, adicionar, editar e excluir itens
 
 ### Regras de negócio
 Abaixo são especificadas regras que incidem sobre o usuo do sistema:

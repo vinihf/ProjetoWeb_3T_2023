@@ -28,6 +28,7 @@ $items = $resultado->fetch_all(MYSQLI_ASSOC);
             <a href="editar_jogo.php?id=<?php echo $item['id']; ?>"><div class="box">
                 <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
                 <p><?php echo $item['name']; ?></p>
+                <a href="deletar_jogo.php?id=<?php echo $item['id'] ?>">Delete</a>
             </div>
             </a>
         <?php endforeach;?>
