@@ -9,6 +9,8 @@ $sql_f = "SELECT *,i.id AS id_item FROM items i LEFT JOIN ratings r ON i.id = r.
 $resultado = $conn->query($sql_f);
 $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 
+$jsonItems = json_encode($items);
+
 //Jogo com mais likes
 $sql_rankinglk = "SELECT r.item_id, COUNT(r.rating) AS dislike_count FROM ratings r WHERE r.rating = 'like' GROUP BY item_id ORDER BY dislike_count DESC LIMIT 1;";
 $resultado = $conn->query($sql_rankinglk);
@@ -78,9 +80,9 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
 
     <?php if($_SESSION['tipo'] == 'manager') :?>
 
-        <?php foreach($items as $item) : ?>
-            <a href="editar_jogo.php?id=<?php echo $item['id'];?>"><img src="<?php echo $item['image_url'] ?>" alt="">
-            <p><?php echo $item['name']; ?></p>
+        <?php foreach($items as $item1) : ?>
+            <a href="editar_jogo.php?id=<?php echo $item1['id'];?>"><img src="<?php echo $item1['image_url'] ?>" alt="">
+            <p><?php echo $item1['name']; ?></p>
             </a>
         <?php endforeach;?>
         <a href="cadastrar_jogo.php">Cadastrar Jogo</a>
@@ -88,7 +90,50 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
     <?php endif;?>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    let currentIndex = 0;
+    const items = <?php echo $jsonItems; ?>;
+
+    // Esconda todas as caixas, exceto a primeira
+    $(".box").hide();
+    $(".box").eq(currentIndex).show();
+
+    // Adicione um ouvinte de evento de clique aos botões
+    $(".box button").click(function() {
+        // Esconda a caixa atual
+        $(".box").eq(currentIndex).hide();
+
+        // Incrementa o índice atual
+        currentIndex++;
+
+        // Se o próximo índice for maior ou igual ao número de itens, volte ao primeiro item
+        if (currentIndex >= items.length) {
+            currentIndex = 0;
+        }
+
+        // Mostre a próxima caixa
+        $(".box").eq(currentIndex).show();
+
+        // Atualize a imagem e o texto da caixa atual
+        showItem(currentIndex);
+    });
+
+    // Função para mostrar um item com base no índice
+    function showItem(index) {
+        const item = items[index];
+        if (item) {
+            const box = $(".box").eq(index);
+            box.find("img").attr("src", item.image_url);
+            box.find("p").text(item.name);
+        }
+    }
+});
+</script>
 </body>
 </html>
+
 
         
