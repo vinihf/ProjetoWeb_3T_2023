@@ -74,7 +74,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
-(1, 'admin@aluno.feliz.ifrs.edu.br', 'Admin', 'senha123', 'manager');
+(1, 'admin@aluno.feliz.ifrs.edu.br', 'Admin', '$2y$10$aru47.Hlv0VBut64ooXq.eURPQ0wNvAsBPL11fj50ZWfj50ZWOchi7n5TNG', 'manager');
 
 --
 -- Índices para tabelas despejadas
