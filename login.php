@@ -60,7 +60,7 @@ $conn -> close();
                     <button>Log in</button>
                     <div class="register">
                         <!-- <p>Entre como<a href="posts.php">Guest</a></p> -->
-                        <p>Fazer <a href="register.php">Registro</a></p>
+                        <p><a href="register.php">Fazer Registro</a></p>
                     </div>
                 </form>
             </div>
