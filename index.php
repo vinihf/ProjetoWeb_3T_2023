@@ -1,11 +1,17 @@
+
+
+
 <?php
+
+
+
 include "db/database.php";
 
-$sql = "SELECT * FROM items";
+$sql = "SELECT * FROM items,categoria";
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
-$sql_f = "SELECT *,i.id AS id_item FROM items i LEFT JOIN ratings r ON i.id = r.item_id AND r.user_id = {$_SESSION['id']} WHERE r.item_id IS NULL";
+$sql_f = "SELECT *,i.id AS id_item,c.nome as categoria  FROM items i LEFT JOIN ratings r ON i.id = r.item_id  left join categoria c on c.iditems = i.id AND r.user_id = {$_SESSION['id']} WHERE r.item_id IS  NULL";
 $resultado = $conn->query($sql_f);
 $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -68,14 +74,19 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         <?php endif; ?>
 
 
-        <?php foreach($items2 as $item) : ?>
-        <div class="box">
+        <?php foreach($items as $item) : ?>
+    <div class="box">
         <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
         <p><?php echo $item['name']; ?></p>
-        <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=<?php echo 1; ?>"><input type="button" value="✅"></a>
-        <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=<?php echo 2; ?>"><input type="button" value="❌"></a>
-        </div>
-    <?php endforeach;?>
+        <p> Categoria: <?php echo $item['categoria_nome']; ?></p>
+        <?php if ($_SESSION['tipo'] == "user") : ?>
+            <!-- Botões de avaliação para usuários -->
+            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=<?php echo 1; ?>"><input type="button" value="✅"></a>
+            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=<?php echo 2; ?>"><input type="button" value="❌"></a>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+
     <?php endif;?>
 
     <?php if($_SESSION['tipo'] == 'manager') :?>
@@ -92,7 +103,9 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
 <script>
+    
 $(document).ready(function() {
     let currentIndex = 0;
     const items = <?php echo $jsonItems; ?>;

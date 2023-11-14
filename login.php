@@ -1,4 +1,8 @@
+
+
+
 <?php
+
 require_once("db/database.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['login'];

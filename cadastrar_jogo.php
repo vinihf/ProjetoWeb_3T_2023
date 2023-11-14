@@ -3,6 +3,7 @@ require_once("db/database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['name'];
+    $categoria = $_POST['categoria']; 
 
     $sql_verificacao = "SELECT * FROM items WHERE name = '$nome'";
     $resultado_verificacao = $conn->query($sql_verificacao);
@@ -15,11 +16,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $caminhoArquivo = $uploadDir . $nomeArquivo;
 
         if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $caminhoArquivo)) {
-            $sql = "INSERT INTO items (name,image_url) VALUES ('$nome','$caminhoArquivo')";
-            $resultado = $conn->query($sql);
+            // Inserção na tabela 'items'
+            $sql_inserir_item = "INSERT INTO items (name, image_url) VALUES ('$nome', '$caminhoArquivo')";
+            $resultado_inserir_item = $conn->query($sql_inserir_item);
 
-            if ($resultado) {
-                header("location: index.php");
+            if ($resultado_inserir_item) {
+                $idItemInserido = $conn->insert_id;
+
+                // Inserção na tabela 'categoria'
+                $sql_inserir_categoria = "INSERT INTO categoria (nome, iditems) VALUES ('$categoria', '$idItemInserido')";
+                $resultado_inserir_categoria = $conn->query($sql_inserir_categoria);
+
+                if ($resultado_inserir_categoria) {
+                    header("location: index.php");
+                } else {
+                    echo "Erro ao cadastrar categoria: " . $conn->error;
+                }
             } else {
                 echo "Erro ao cadastrar Jogo: " . $conn->error;
             }
@@ -27,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +61,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="name" required><br>
         <label for="imagem">Imagem do Livro:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
+        
+        <label for="categoria">Categoria:</label>
+        <input type="text" name="categoria" required><br>
         <input type="submit" value="Cadastrar">
+
         <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
     </form>
 </body>

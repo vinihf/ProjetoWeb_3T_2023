@@ -3,8 +3,10 @@ include "db/database.php";
 
 $idItem = $_GET['id'];
 
-$sql_items = "SELECT * FROM items WHERE id = $idItem";
-$resultado = $conn ->query($sql_items);
+$sql_items = "SELECT items.*, categoria.nome as categoria_nome FROM items 
+              LEFT JOIN categoria ON items.id = categoria.iditems
+              WHERE items.id = $idItem";
+$resultado = $conn->query($sql_items);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
 if (isset($_POST['salvar'])) {
@@ -15,15 +17,31 @@ if (isset($_POST['salvar'])) {
         $caminhoArquivo = $uploadDir . $nomeArquivo;
 
         if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $caminhoArquivo)) {
-            $sql = "UPDATE items SET name = '{$_POST['name']}', image_url = '$caminhoArquivo' WHERE id = $idItem";
-            $resultado = $conn->query($sql);
+            // Atualizar informações na tabela 'items'
+            $sql_update_items = "UPDATE items SET name = '{$_POST['name']}', image_url = '$caminhoArquivo' WHERE id = $idItem";
+            $resultado_update_items = $conn->query($sql_update_items);
+
+            if ($resultado_update_items) {
+                // Atualizar categoria na tabela 'categoria'
+                $novaCategoria = $_POST['categoria'];
+                $sql_update_categoria = "UPDATE categoria SET nome = '$novaCategoria' WHERE iditem = $idItem";
+                $resultado_update_categoria = $conn->query($sql_update_categoria);
+
+                if ($resultado_update_categoria) {
+                    header("location: index.php");
+                } else {
+                    echo "Erro ao atualizar categoria: " . $conn->error;
+                }
+            } else {
+                echo "Erro ao atualizar informações do Jogo: " . $conn->error;
+            }
         }
-    }
-    else{
+    } else {
         echo "<script> alert('Preencha todos os campos!') </script>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +64,9 @@ if (isset($_POST['salvar'])) {
         <input type="text" name="name" placeholder = "<?php echo $item['name']; ?>"><br>
         <label for="imagem">Imagem do Livro:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
+        <label for="categoria">Categoria:</label>
+        <input type="text" name="categoria" placeholder="<?php echo $item['categoria_nome']; ?>"><br>
+
         <input type="submit" name="salvar" value="Salvar Edições">
         <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
         <?php endforeach;?>
