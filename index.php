@@ -62,9 +62,9 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
                 <img src="<?php echo $item['image_url']; ?>" alt="">
                 <h4><?php echo $item['name'] ?></h4>
                 <?php elseif($items3) : ?>
-                <p>Não há jogos com dislikes</p>
+                <p>Não há jogos com likes</p>
                 <?php else : ?>
-                <p>Não há jogos com likes</p> 
+                <p>Não há jogos com deslikes</p> 
                 <?php endif; ?>
                 <?php endforeach; ?>
             </div>
