@@ -58,7 +58,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
                 <?php endforeach; ?>
                 <h3>Pior Jogo no Ranking</h3>
                 <?php foreach($items as $item) : ?>
-                <?php if($item["id"] == $items3[0]["item_id"]) : ?>
+                <?php if($item["id"] && isset($items3[0]["item_id"])) : ?>
                 <img src="<?php echo $item['image_url']; ?>" alt="">
                 <h4><?php echo $item['name'] ?></h4>
                 <?php elseif($items3) : ?>
