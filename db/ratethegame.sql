@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/10/2023 às 19:23
+-- Tempo de geração: 15/11/2023 às 16:14
 -- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.2.4
+-- Versão do PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,20 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `ratethegame`
+-- Banco de dados: `ratethegame2.0`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(30) DEFAULT NULL,
+  `iditems` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -74,24 +86,25 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
-(1, 'admin@aluno.feliz.ifrs.edu.br', 'Admin', '$2y$10$qBIWLSCJsqQwfSmij742geencn71xBE0wFLV5pjcJ9B$2y$10$qBIWLSCJsqQwfSmij742geencn71xBE0wFLV5pjcJ9B', 'manager');
+(1, 'admin@aluno.feliz.ifrs.edu.br', 'Admin', 'senha123', 'manager');
 
 --
 -- Índices para tabelas despejadas
 --
-CREATE TABLE `categoria` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(30) NOT NULL,
-  `iditems` int(11) NOT NULL
-  )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices de tabela `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `iditems` (`iditems`);
+
 --
 -- Índices de tabela `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
-alter table `categoria`
-  add primary key (`id`);
 --
 -- Índices de tabela `ratings`
 --
@@ -112,12 +125,15 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de tabela `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
-ALTER TABLE `categoria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -137,13 +153,17 @@ ALTER TABLE `users`
 --
 
 --
+-- Restrições para tabelas `categoria`
+--
+ALTER TABLE `categoria`
+  ADD CONSTRAINT `categoria_ibfk_1` FOREIGN KEY (`iditems`) REFERENCES `items` (`id`);
+
+--
 -- Restrições para tabelas `ratings`
 --
 ALTER TABLE `ratings`
   ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-ALTER TABLE `categoria`
-ADD CONSTRAINT `categoria_ibfk_3` FOREIGN KEY (`iditems`) REFERENCES `items` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
