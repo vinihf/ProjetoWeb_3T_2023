@@ -79,7 +79,7 @@ INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
 --
 -- Índices para tabelas despejadas
 --
-Create Table 'categoria' (
+Create Table `categoria` (
   `id` int(11) not null,
   `nome` varchar(30) not null,
   `iditems` int(11) not null)
@@ -142,9 +142,10 @@ ALTER TABLE `users`
 ALTER TABLE `ratings`
   ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-COMMIT;
 ALTER TABLE `categoria`
 ADD CONSTRAINT `categoria_ibfk_3` FOREIGN KEY (`iditems`) REFERENCES `items` (`id`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
