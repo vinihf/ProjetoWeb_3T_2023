@@ -79,11 +79,11 @@ INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
 --
 -- Índices para tabelas despejadas
 --
-Create Table `categoria` (
-  `id` int(11) not null,
-  `nome` varchar(30) not null,
-  `iditems` int(11) not null)
-ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `categoria` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(30) NOT NULL,
+  `iditems` int(11) NOT NULL
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 --
 -- Índices de tabela `items`
 --
@@ -117,8 +117,8 @@ ALTER TABLE `users`
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-alter table `categoria`
-  MODIFY `id` int(11) not null AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `ratings`
