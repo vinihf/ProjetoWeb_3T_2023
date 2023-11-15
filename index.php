@@ -1,10 +1,4 @@
-
-
-
 <?php
-
-
-
 include "db/database.php";
 
 $sql = $sql = "SELECT items.*, categoria.nome AS categoria_nome FROM items LEFT JOIN categoria ON items.id = categoria.iditems";
@@ -79,7 +73,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         <?php endif; ?>
 
 
-        <?php foreach($items as $item) : ?>
+        <?php foreach($items2 as $item) : ?>
     <div class="box">
         <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
         <p><?php echo $item['name']; ?></p>

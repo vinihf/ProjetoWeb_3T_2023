@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 require_once("db/database.php");
@@ -59,7 +56,7 @@ $conn -> close();
                     </div>
                     <button>Log in</button>
                     <div class="register">
-                        <!-- <p>Entre como<a href="posts.php">Guest</a></p> -->
+                       
                         <p><a href="register.php">Fazer Registro</a></p>
                     </div>
                 </form>
