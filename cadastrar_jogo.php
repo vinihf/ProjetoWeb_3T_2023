@@ -1,171 +1,154 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 15/11/2023 às 16:14
--- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.0.28
+<?php
+require_once("db/database.php");
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['name'];
+    $categoria = $_POST['categoria']; 
 
+    $sql_verificacao = "SELECT * FROM items WHERE name = '$nome'";
+    $resultado_verificacao = $conn->query($sql_verificacao);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+    if ($resultado_verificacao->num_rows > 0) {
+        echo '<script>alert("Jogo já registrado!");</script>';
+    } else {
+        $uploadDir = "uploads/";
+        $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
+        $caminhoArquivo = $uploadDir . $nomeArquivo;
 
---
--- Banco de dados: `ratethegame2.0`
---
+        if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $caminhoArquivo)) {
+            // Inserção na tabela 'items'
+            $sql_inserir_item = "INSERT INTO items (name, image_url) VALUES ('$nome', '$caminhoArquivo')";
+            $resultado_inserir_item = $conn->query($sql_inserir_item);
 
--- --------------------------------------------------------
+            if ($resultado_inserir_item) {
+                $idItemInserido = $conn->insert_id;
 
---
--- Estrutura para tabela `categoria`
---
+                // Inserção na tabela 'categoria'
+                $sql_inserir_categoria = "INSERT INTO categoria (nome, iditems) VALUES ('$categoria', '$idItemInserido')";
+                $resultado_inserir_categoria = $conn->query($sql_inserir_categoria);
 
-CREATE TABLE `categoria` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(30) DEFAULT NULL,
-  `iditems` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+                if ($resultado_inserir_categoria) {
+                    header("location: index.php");
+                } else {
+                    echo "Erro ao cadastrar categoria: " . $conn->error;
+                }
+            } else {
+                echo "Erro ao cadastrar Jogo: " . $conn->error;
+            }
+        }
+    }
+}
+?>
 
--- --------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate the Game - Registrar Jogo</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Video-Game-Controller-Icon-D-Edit.svg/1200px-Video-Game-Controller-Icon-D-Edit.svg.png" type="image/x-icon">
 
---
--- Estrutura para tabela `items`
---
+</head>
+<body>
+    <form method="post" action="" enctype="multipart/form-data">
+        <header>
+            <div class="top">
+                <a href="index.php"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Video-Game-Controller-Icon-D-Edit.svg/1200px-Video-Game-Controller-Icon-D-Edit.svg.png" alt="" width="90" height="90"></a>
+                <h1>Cadastrar Jogos</h1>
+            </div>
+        </header>
+        <label for="titulo">Nome:</label>
+        <input type="text" name="name" required><br>
+        <label for="imagem">Imagem do Livro:</label>
+        <input type="file" name="imagem" accept="image/*" required><br>
+        
+        <label for="categoria">Categoria:</label>
+        <input type="text" name="categoria" required><br>
+        <input type="submit" value="Cadastrar">
 
-CREATE TABLE `items` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `image_url` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+        <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
+    </form>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
---
--- Despejando dados para a tabela `items`
---
+.top{
+    background-color:deepskyblue; 
+    color: black;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 6px;
+}
 
-INSERT INTO `items` (`id`, `name`, `image_url`) VALUES
-(1, 'Item 1', 'url_da_imagem_1'),
-(2, 'Item 2', 'url_da_imagem_2'),
-(3, 'Item 15', 'url_da_imagem_15');
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
--- --------------------------------------------------------
+.top a img {
+    margin-right: 10px;
+}
 
---
--- Estrutura para tabela `ratings`
---
+h1 {
+    font-size: 24px;
+    margin: 0;
+}
 
-CREATE TABLE `ratings` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `rating` enum('like','dislike') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+form {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
 
--- --------------------------------------------------------
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
 
---
--- Estrutura para tabela `users`
---
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('user','manager') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+input[type="submit"],
+input[type="button"] {
+    background-color: deepskyblue;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
 
---
--- Despejando dados para a tabela `users`
---
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: deepskyblue; 
+}
 
-INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
-(1, 'admin@aluno.feliz.ifrs.edu.br', 'Admin', 'senha123', 'manager');
+@media (min-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
 
---
--- Índices para tabelas despejadas
---
+    form {
+        min-width: 600px;
+    }
+}
 
---
--- Índices de tabela `categoria`
---
-ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `iditems` (`iditems`);
-
---
--- Índices de tabela `items`
---
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `ratings`
---
-ALTER TABLE `ratings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `item_id` (`item_id`);
-
---
--- Índices de tabela `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `categoria`
---
-ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `items`
---
-ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `ratings`
---
-ALTER TABLE `ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `categoria`
---
-ALTER TABLE `categoria`
-  ADD CONSTRAINT `categoria_ibfk_1` FOREIGN KEY (`iditems`) REFERENCES `items` (`id`);
-
---
--- Restrições para tabelas `ratings`
---
-ALTER TABLE `ratings`
-  ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+</style>
