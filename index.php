@@ -5,7 +5,7 @@ $sql = "SELECT items.*, categoria.nome AS categoria_nome FROM items LEFT JOIN ca
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
-$sql_f = "SELECT *,i.id AS id_item,c.nome as categoria  FROM items i LEFT JOIN ratings r ON i.id = r.item_id  left join categoria c on c.iditems = i.id AND r.user_id = {$_SESSION['id']} WHERE r.item_id IS  NULL";
+$sql_f = "SELECT *,i.id AS id_item,c.nome as categoria_nome  FROM items i LEFT JOIN ratings r ON i.id = r.item_id  left join categoria c on c.iditems = i.id AND r.user_id = {$_SESSION['id']} WHERE r.item_id IS  NULL";
 $resultado = $conn->query($sql_f);
 $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 
