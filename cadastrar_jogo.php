@@ -3,10 +3,12 @@ require_once("db/database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['name'];
-    $categoria = $_POST['categoria']; 
 
     $sql_verificacao = "SELECT * FROM items WHERE name = '$nome'";
-    $resultado_verificacao = $conn->query($sql_verificacao);
+    $stmt_verificacao = $conn->prepare("SELECT * FROM items WHERE name = ?");
+    $stmt_verificacao->bind_param("s", $nome);
+    $stmt_verificacao->execute();
+    $resultado_verificacao = $stmt_verificacao->get_result();
 
     if ($resultado_verificacao->num_rows > 0) {
         echo '<script>alert("Jogo já registrado!");</script>';
@@ -16,30 +18,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $caminhoArquivo = $uploadDir . $nomeArquivo;
 
         if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $caminhoArquivo)) {
-            // Inserção na tabela 'items'
-            $sql_inserir_item = "INSERT INTO items (name, image_url) VALUES ('$nome', '$caminhoArquivo')";
-            $resultado_inserir_item = $conn->query($sql_inserir_item);
+            $sql = "INSERT INTO items (name,image_url) VALUES ('$nome','$caminhoArquivo')";
+            $stmt = $conn->prepare("INSERT INTO items (name, image_url) VALUES (?, ?)");
+            $stmt->bind_param("ss", $nome, $caminhoArquivo);
+            $stmt->execute();
 
-            if ($resultado_inserir_item) {
-                $idItemInserido = $conn->insert_id;
-
-                // Inserção na tabela 'categoria'
-                $sql_inserir_categoria = "INSERT INTO categoria (nome, iditems) VALUES ('$categoria', '$idItemInserido')";
-                $resultado_inserir_categoria = $conn->query($sql_inserir_categoria);
-
-                if ($resultado_inserir_categoria) {
-                    header("location: index.php");
-                } else {
-                    echo "Erro ao cadastrar categoria: " . $conn->error;
-                }
+            if ($resultado_verificacao) {
+                header("location: index.php");
             } else {
-                echo "Erro ao cadastrar Jogo: " . $conn->error;
+                error_log("Erro ao cadastrar Jogo: " . $conn->error);
+                echo "Erro ao cadastrar Jogo: " . htmlspecialchars($conn->error);
             }
         }
     }
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,13 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </header>
         <label for="titulo">Nome:</label>
         <input type="text" name="name" required><br>
-        <label for="imagem">Imagem do Livro:</label>
+        <label for="imagem">Imagem do Jogo:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
-        
-        <label for="categoria">Categoria:</label>
-        <input type="text" name="categoria" required><br>
         <input type="submit" value="Cadastrar">
-
         <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
     </form>
 </body>
