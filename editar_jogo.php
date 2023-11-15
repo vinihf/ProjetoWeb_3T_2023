@@ -24,7 +24,7 @@ if (isset($_POST['salvar'])) {
             if ($resultado_update_items) {
                 // Atualizar categoria na tabela 'categoria'
                 $novaCategoria = $_POST['categoria'];
-                $sql_update_categoria = "UPDATE categoria SET nome = '$novaCategoria' WHERE iditem = $idItem";
+                $sql_update_categoria = "UPDATE categoria SET nome = '$novaCategoria' WHERE iditems = $idItem";
                 $resultado_update_categoria = $conn->query($sql_update_categoria);
 
                 if ($resultado_update_categoria) {

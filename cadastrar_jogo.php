@@ -19,8 +19,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Inserção na tabela 'items'
             $sql_inserir_item = "INSERT INTO items (name, image_url) VALUES ('$nome', '$caminhoArquivo')";
             $resultado_inserir_item = $conn->query($sql_inserir_item);
+            
 
-            if ($resultado_inserir_item) {
+
+        if ($resultado_inserir_item) {
+         
+        $sql_get_id = "SELECT id FROM items WHERE name = '$nome' AND image_url = '$caminhoArquivo'";
+         $resultado_get_id = $conn->query($sql_get_id);
+
+     if ($resultado_get_id && $resultado_get_id->num_rows > 0) {
+        $row = $resultado_get_id->fetch_assoc();
+        $idItemInserido = $row['id'];
+
+        // Inserção na tabela 'categoria'
+        $sql_inserir_categoria = "INSERT INTO categoria (nome, iditems) VALUES ('$categoria', '$idItemInserido')";
+        $resultado_inserir_categoria = $conn->query($sql_inserir_categoria);
+
+      
+    } else {
+        echo "Erro ao buscar o ID do item inserido: " . $conn->error;
+    }
+} else {
+    echo "Erro ao cadastrar Jogo: " . $conn->error;
+}
+
+
+            if ($resultado_verificacao) {
+                
                 $idItemInserido = $conn->insert_id;
 
                 // Inserção na tabela 'categoria'
@@ -39,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

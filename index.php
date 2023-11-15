@@ -7,7 +7,8 @@
 
 include "db/database.php";
 
-$sql = "SELECT * FROM items,categoria";
+$sql = $sql = "SELECT items.*, categoria.nome AS categoria_nome FROM items LEFT JOIN categoria ON items.id = categoria.iditems";
+;
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -50,7 +51,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         <h1>Rate The Game</h1>
         <a href="logout.php"><input type="button" value="Logout" name="logout"></a>
     </header>
-    <?php if($_SESSION['tipo'] == "user") : ?>
+    <?php if($_SESSION['tipo'] == "user" or "manager") : ?>
     
         <?php if($items2 == null) : ?>
 
@@ -83,10 +84,12 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
         <p><?php echo $item['name']; ?></p>
         <p> Categoria: <?php echo $item['categoria_nome']; ?></p>
-        <?php if ($_SESSION['tipo'] == "user") : ?>
+        <?php if ($_SESSION['tipo'] == "user" ) : ?>
             <!-- Botões de avaliação para usuários -->
-            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=<?php echo 1; ?>"><input type="button" value="✅"></a>
-            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=<?php echo 2; ?>"><input type="button" value="❌"></a>
+            
+    <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a>
+    <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a>
+   
         <?php endif; ?>
     </div>
 <?php endforeach; ?>
@@ -120,7 +123,7 @@ $(document).ready(function() {
 
     // Adicione um ouvinte de evento de clique aos botões
     $(".box button").click(function() {
-        // Esconda a caixa atual
+        
         $(".box").eq(currentIndex).hide();
 
         // Incrementa o índice atual
