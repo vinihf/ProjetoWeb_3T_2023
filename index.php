@@ -1,8 +1,7 @@
 <?php
 include "db/database.php";
 
-$sql = $sql = "SELECT items.*, categoria.nome AS categoria_nome FROM items LEFT JOIN categoria ON items.id = categoria.iditems";
-;
+$sql = "SELECT items.*, categoria.nome AS categoria_nome FROM items LEFT JOIN categoria ON items.id = categoria.iditems";
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -45,7 +44,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         <h1>Rate The Game</h1>
         <a href="logout.php"><input type="button" value="Logout" name="logout"></a>
     </header>
-    <?php if($_SESSION['tipo'] == "user" or "manager") : ?>
+    <?php if($_SESSION['tipo'] == "user" or $_SESSION['tipo'] == "manager") : ?>
     
         <?php if($items2 == null) : ?>
 
@@ -73,7 +72,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         <?php endif; ?>
 
 
-        <?php foreach($items2 as $item) : ?>
+        <?php foreach($items as $item) : ?>
     <div class="box">
         <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
         <p><?php echo $item['name']; ?></p>
@@ -148,6 +147,3 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
-
-
-        
