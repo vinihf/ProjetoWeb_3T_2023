@@ -79,13 +79,19 @@ INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
 --
 -- Índices para tabelas despejadas
 --
-
+Create Table 'categoria' (
+  `id` int(11) not null,
+  `nome` varchar(30) not null,
+  `iditems` int(11) not null)
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 --
 -- Índices de tabela `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
+alter table `categoria`
+  add primary key (`id`);
 --
 -- Índices de tabela `ratings`
 --
@@ -111,6 +117,9 @@ ALTER TABLE `users`
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
+alter table `categoria`
+  MODIFY `id` int(11) not null AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de tabela `ratings`
 --
@@ -134,7 +143,8 @@ ALTER TABLE `ratings`
   ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 COMMIT;
-
+ALTER TABLE `categoria`
+ADD CONSTRAINT `categoria_ibfk_3` FOREIGN KEY (`iditems`) REFERENCES `items` (`id`),
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
