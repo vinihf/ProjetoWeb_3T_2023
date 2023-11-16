@@ -81,7 +81,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         
         <?php endif; ?>
 
-        <?php foreach($items2 as $items) : ?>
+        <?php foreach($items as $items) : ?>
             <div class="box">
                 <img src="<?php echo $items['image_url']; ?>" alt="" width="250px">
                 <p><?php echo $items['name']; ?></p>
