@@ -1,6 +1,8 @@
 <?php
 include("db/database.php");
-
+if (!isset($_SESSION['id'])) {
+    header('location:login.php');
+}
 if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
