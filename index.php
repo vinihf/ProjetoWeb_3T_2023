@@ -1,6 +1,10 @@
 <?php
 include "db/database.php";
 
+if(!isset($_SESSION['id'])){
+    header('location:login.php');
+}
+
 // Variável para armazenar a ordem atual
 $ordenacao = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'desc';
 

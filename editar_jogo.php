@@ -1,6 +1,12 @@
 <?php
 include "db/database.php";
 
+if(!isset($_SESSION['id'])){
+    header('location:login.php');
+} elseif ($_SESSION['tipo'] != 'maneger') {
+        header('location:index.php');
+}
+
 $idItem = $_GET['id'];
 
 $sql_items = "SELECT items.*, categoria.nome as categoria_nome FROM items 
