@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </header>
         <label for="titulo">Nome:</label>
         <input type="text" name="name" required><br>
-        <label for="imagem">Imagem do Livro:</label>
+        <label for="imagem">Imagem do Jogo:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
         
         <label for="categoria">Categoria:</label>
@@ -104,8 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 .top{
-    background-color:deepskyblue; 
-    color: black;
+    background-color:#333; 
+    color: white;
     text-align: center;
     padding: 20px 0;
     border-radius: 6px;
@@ -153,8 +153,8 @@ input[type="file"] {
 
 input[type="submit"],
 input[type="button"] {
-    background-color: deepskyblue;
-    color: #333;
+    background-color: #333;
+    color: white;
     padding: 10px 20px;
     border: none;
     cursor: pointer;

@@ -106,7 +106,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
             <p><?php echo $item1['name']; ?></p>
             </a>
         <?php endforeach;?>
-        <a href="cadastrar_jogo.php">Cadastrar Jogo</a>
+        <a class="a" href="cadastrar_jogo.php">Cadastrar Jogo</a>
     <?php endif;?>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -157,5 +157,82 @@ $(document).ready(function() {
     }
 });
 </script>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.box {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    max-width: 300px;
+}
+.box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.box p {
+    margin-bottom: 10px;
+}
+
+input[type="button"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+select, label {
+    margin: 10px;
+}
+
+select {
+    padding: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    color: #4CAF50;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+</style>
 </body>
 </html>

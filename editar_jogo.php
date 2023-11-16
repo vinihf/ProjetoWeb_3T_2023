@@ -3,7 +3,7 @@ include "db/database.php";
 
 if(!isset($_SESSION['id'])){
     header('location:login.php');
-} elseif ($_SESSION['tipo'] != 'maneger') {
+} elseif ($_SESSION['tipo'] != 'manager') {
         header('location:index.php');
 }
 
@@ -87,8 +87,8 @@ if (isset($_POST['salvar'])) {
 }
 
 .top{
-    background-color:deepskyblue; 
-    color: black;
+    background-color:#333; 
+    color: white;
     text-align: center;
     padding: 20px 0;
     border-radius: 6px;
@@ -136,8 +136,8 @@ input[type="file"] {
 
 input[type="submit"],
 input[type="button"] {
-    background-color: deepskyblue;
-    color: #333;
+    background-color: #333;
+    color: white;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
