@@ -8,7 +8,7 @@ if(!isset($_SESSION['id'])){
 // Variável para armazenar a ordem atual
 $ordenacao = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'desc';
 
-$sql = "SELECT items.*, categoria.nome AS categoria_nome FROM items LEFT JOIN categoria ON items.id = categoria.iditems";
+$sql = "SELECT *,items.id AS idt, categoria.nome AS categoria_nome FROM items JOIN categoria ON items.id = categoria.iditems GROUP BY items.id;";
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -66,7 +66,7 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
                 <h3>Melhor Jogo no Ranking</h3>
                 <?php foreach($items as $item) : ?>
                 <?php if($item["id"] == $items4[0]["item_id"]) : ?>
-                <img src="<?php echo $item['image_url']; ?>" alt="">
+                <img src="<?php echo $item['image_url'];  ?>" alt="" width="250px">
                 <h4><?php echo $item['name'] ?></h4>    
                 <?php endif; ?>
                 <?php endforeach; ?>
@@ -102,11 +102,12 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
 
     <?php if($_SESSION['tipo'] == 'manager') :?>
         <?php foreach($items as $item1) : ?>
-            <a href="editar_jogo.php?id=<?php echo $item1['id'];?>"><img src="<?php echo $item1['image_url'] ?>" alt="">
+            <a href="editar_jogo.php?id=<?php echo $item1['idt'];?>"><img src="<?php echo $item1['image_url'] ?>" alt="">
             <p><?php echo $item1['name']; ?></p>
             </a>
         <?php endforeach;?>
         <a class="a" href="cadastrar_jogo.php">Cadastrar Jogo</a>
+        
     <?php endif;?>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

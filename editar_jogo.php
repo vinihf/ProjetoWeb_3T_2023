@@ -11,7 +11,7 @@ $idItem = $_GET['id'];
 
 $sql_items = "SELECT items.*, categoria.nome as categoria_nome FROM items 
               LEFT JOIN categoria ON items.id = categoria.iditems
-              WHERE items.id = $idItem";
+              WHERE items.id = $idItem GROUP BY items.name";
 $resultado = $conn->query($sql_items);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -68,7 +68,7 @@ if (isset($_POST['salvar'])) {
         <?php foreach($items as $item) : ?>
         <label for="name">Nome:</label>
         <input type="text" name="name" placeholder = "<?php echo $item['name']; ?>"><br>
-        <label for="imagem">Imagem do Livro:</label>
+        <label for="imagem">Imagem do Jogo:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
         <label for="categoria">Categoria:</label>
         <input type="text" name="categoria" placeholder="<?php echo $item['categoria_nome']; ?>"><br>
