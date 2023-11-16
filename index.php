@@ -81,15 +81,15 @@ $items_dislike = $resultado->fetch_all(MYSQLI_ASSOC);
         
         <?php endif; ?>
 
-        <?php foreach($items as $item) : ?>
+        <?php foreach($items2 as $items) : ?>
             <div class="box">
-                <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
-                <p><?php echo $item['name']; ?></p>
-                <p> Categoria: <?php echo $item['categoria_nome']; ?></p>
+                <img src="<?php echo $items['image_url']; ?>" alt="" width="250px">
+                <p><?php echo $items['name']; ?></p>
+                <p> Categoria: <?php echo $items['categoria_nome']; ?></p>
                 <?php if ($_SESSION['tipo'] == "user" ) : ?>
                     <!-- Botões de avaliação para usuários -->
-                    <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a>
-                    <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a>
+                    <a href="processar_rating.php?id=<?php echo $items['id_items']; ?>&&tipo=1"><input type="button" value="✅"></a>
+                    <a href="processar_rating.php?id=<?php echo $items['id_items']; ?>&&tipo=2"><input type="button" value="❌"></a>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
