@@ -7,8 +7,12 @@ $resultado = $conn->query($sql);
 
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 if(isset($_POST['sim'])){
-    $sql_dl = "DELETE from items WHERE id = {$_GET['id']}";
+    $sql_dl = "DELETE from categoria WHERE iditems = {$_GET['id']}";
     $resultado = $conn->query($sql_dl);
+    $sql_dlts = "DELETE FROM ratings WHERE item_id = {$_GET['id']}";
+    $resultado = $conn->query($sql_dlts);
+    $sql_dlt = "DELETE FROM items WHERE id = {$_GET['id']}";
+    $resultado = $conn->query($sql_dlt);
     header("location: index.php");
 }
 

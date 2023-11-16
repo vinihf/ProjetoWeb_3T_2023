@@ -77,7 +77,7 @@ function validateEmail() {
     if (email.endsWith("@aluno.feliz.ifrs.edu.br")) {
         return true;
     } else {
-        alert("O domínio do e-mail deve ser @aluno.feliz.ifrs.edu.br.");
+        alert("O domínio do e-mail deve ser @aluno.feliz.ifrs.edu.br");
         return false; 
     }
 }

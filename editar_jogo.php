@@ -56,7 +56,7 @@ if (isset($_POST['salvar'])) {
         <header>
             <div class="top">
                 <a href="index.php"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Video-Game-Controller-Icon-D-Edit.svg/1200px-Video-Game-Controller-Icon-D-Edit.svg.png" alt="" width="90" height="90"></a>
-                <h1>Edição de Livros</h1>
+                <h1>Edição de jogo</h1>
             </div>
         </header>
         <?php foreach($items as $item) : ?>
