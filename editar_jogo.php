@@ -67,7 +67,7 @@ if (isset($_POST['salvar'])) {
         </header>
         <?php foreach($items as $item) : ?>
         <label for="name">Nome:</label>
-        <input type="text" name="name" placeholder = "<?php echo $item['name']; ?>"><br>
+        <input type="text" name="name" value = "<?php echo $item['name']; ?>"><br>
         <label for="imagem">Imagem do Jogo:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
         <label for="categoria">Categoria:</label>

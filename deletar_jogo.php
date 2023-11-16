@@ -2,7 +2,7 @@
 include "db/database.php";
 if(!isset($_SESSION['id'])){
     header('location:login.php');
-} elseif ($_SESSION['tipo'] != 'maneger') {
+} elseif ($_SESSION['tipo'] != 'manager') {
         header('location:index.php');
 }
 $sql = "SELECT * FROM items WHERE id = {$_GET['id']}";
