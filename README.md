@@ -7,26 +7,26 @@ Em grupos formados por até 4 pessoas, vocês devem desenvolver um sistema que, 
 O sistema deve possuir dois papéis para as pessoas que vão o utilizar com permissões distintas: pessoa usuária e gerente. Abaixo vocês podem conferir quais são as atividades que podem/devem ser realizadas por cada papel.
 
 #### Pessoa usuária
-- [ ] Criar e editar informações de pessoa usuária (e-mail, senha, nome)
-- [ ] Fazer login e logout no sistema
-- [ ] Classificar itens (Indicar se gosta de uma série, se comeria uma comida, etc).
+- [x] Criar e editar informações de pessoa usuária (e-mail, senha, nome)
+- [x] Fazer login e logout no sistema
+- [x] Classificar itens (Indicar se gosta de uma série, se comeria uma comida, etc).
 - [ ] Visualizar rankings dos itens classificados como mais queridos
 - [ ] Visualizar rankings dos itens classificados como menos queridos
 - [ ] Ordenar de forma crescente ou decrescente os rankings de classificações
 
 #### Gerente
-- [ ] A pessoa que será gerente deve ser cadastrada no banco previamente (user: admin e password: senha123)
-- [ ] Fazer login e logout no sistema
-- [ ] Visualizar ranking dos itens classificados
-- [ ] Ordenar de forma crescente ou decrescente o ranking de classificações
-- [ ] Listar, adicionar, editar e excluir itens
+- [x] A pessoa que será gerente deve ser cadastrada no banco previamente (user: admin e password: senha123)
+- [x] Fazer login e logout no sistema
+- [x] Visualizar ranking dos itens classificados
+- [x] Ordenar de forma crescente ou decrescente o ranking de classificações
+- [x] Listar, adicionar, editar e excluir itens
 
 ### Regras de negócio
 Abaixo são especificadas regras que incidem sobre o usuo do sistema:
-- [ ] A pessoa usuária não pode alterar seu e-mail
-- [ ] O e-mail da pessoa usuária deve ser do domínio @aluno.feliz.ifrs.edu.br
-- [ ] Um item consiste em uma imagem de algo
-- [ ] O ranking deve ser ordenado pelo número de avaliações positivas ou negativas
+- [x] A pessoa usuária não pode alterar seu e-mail
+- [x] O e-mail da pessoa usuária deve ser do domínio @aluno.feliz.ifrs.edu.br
+- [x] Um item consiste em uma imagem de algo
+- [x] O ranking deve ser ordenado pelo número de avaliações positivas ou negativas
 - [ ] O sistema deve iniciar com pelo menos 15 itens cadastrados
 - [ ] Uma pessoa só pode votar uma vez em cada item
 
@@ -49,3 +49,8 @@ Abaixo são especificadas regras que incidem sobre o usuo do sistema:
 - O sistema será avaliado nos seguintes critérios:
   - Implementação dos requisitos funcionais e regras de negócio (6 pontos)
   - Design (4 pontos)
+
+
+### Descrição
+- Nosso trabalho é sobre games
+- Gustavo, Victor, Ezquiel, Mathias
