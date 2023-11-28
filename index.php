@@ -6,28 +6,24 @@ if(!isset($_SESSION['id'])){
 }
 
 // Variável para armazenar a ordem atual
-$ordenacao = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'DESC';
+$ordenacaoA = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'DESC';
+$ordenacaoD = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'ASC';
 
 $sql = "SELECT *,items.id AS idt FROM items GROUP BY items.id;";
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
-$sql_f = "SELECT *,i.id AS id_item FROM items i LEFT JOIN ratings r ON i.id = r.item_id AND r.user_id = 5 WHERE r.item_id IS NULL;";
+//Jogo sem rating
+$sql_f = "SELECT *,i.id AS id_item FROM items i LEFT JOIN ratings r ON i.id = r.item_id AND r.user_id = {$_SESSION['id']} WHERE r.item_id IS NULL;";
 $resultado = $conn->query($sql_f);
 $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 
 $jsonItems = json_encode($items);
 
-//Jogo com mais likes
-$sql_rankinglk = "SELECT items.*, r.item_id, COUNT(CASE WHEN r.rating = 'like' THEN 1 END) AS like_count, COUNT(CASE WHEN r.rating = 'dislike' THEN 1 END) AS dislike_count FROM ratings r JOIN items ON items.id = r.item_id GROUP BY item_id HAVING like_count > dislike_count ORDER BY like_count $ordenacao;";
+//ranking
+$sql_rankinglk = "  SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY likes $ordenacaoA, dislikes $ordenacaoA";
 $resultado = $conn->query($sql_rankinglk);
 $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
-
-//Jogo com mais dislikes
-$sql_rankingdlk = "SELECT items.*, r.item_id, COUNT(CASE WHEN r.rating = 'like' THEN 1 END) AS like_count, COUNT(CASE WHEN r.rating = 'dislike' THEN 1 END) AS dislike_count FROM ratings r JOIN items ON items.id = r.item_id GROUP BY item_id HAVING dislike_count > like_count ORDER BY dislike_count $ordenacao;";
-$resultado = $conn->query($sql_rankingdlk);
-$items3 = $resultado->fetch_all(MYSQLI_ASSOC);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,29 +41,18 @@ $items3 = $resultado->fetch_all(MYSQLI_ASSOC);
     
     <label for="ordenacao">Ordem:</label>
     <select id="ordenacao" name="ordenacao" onchange="atualizarOrdenacao()">
-        <option value="DESC" <?php echo ($ordenacao == 'DESC') ? 'selected' : ''; ?>>Decrescente</option>
-        <option value="ASC" <?php echo ($ordenacao == 'ASC') ? 'selected' : ''; ?>>Crescente</option>
+        <option value="DESC" <?php echo ($ordenacaoD == 'DESC') ? 'selected' : ''; ?>>Decrescente</option>
+        <option value="ASC" <?php echo ($ordenacaoA == 'ASC') ? 'selected' : ''; ?>>Crescente</option>
     </select>
 
-    <?php if($_SESSION['tipo'] == "user" or $_SESSION['tipo'] == "manager") : ?>
-    
-        <?php if($items2 == null) : ?>
-
             <div class="box">
-                <h3>Melhor Jogo no Ranking</h3>
+                <h3>Ranking de Jogos</h3>
                 <?php foreach($items4 as $item) : ?>
                 <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
                 <h4><?php echo $item['name'] ?></h4>    
                 <?php endforeach; ?>
-                <h3>Pior Jogo no Ranking</h3>
-                <?php foreach($items3 as $item) : ?>
-                <img src="<?php echo $item['image_url']; ?>" alt="">
-                <h4><?php echo $item['name'] ?></h4>
-                <?php endforeach; ?>
             </div>
-        
-        <?php endif; ?>
-
+        <?php if($_SESSION['tipo'] == "user") : ?>
          <?php foreach($items2 as $item) : ?>
         <div class="box">
         <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
@@ -84,13 +69,8 @@ $items3 = $resultado->fetch_all(MYSQLI_ASSOC);
     <?php endif;?>
 
     <?php if($_SESSION['tipo'] == 'manager') :?>
-        <?php foreach($items as $item1) : ?>
-            <a href="editar_jogo.php?id=<?php echo $item1['idt'];?>"><img src="<?php echo $item1['image_url'] ?>" alt="">
-            <p><?php echo $item1['name']; ?></p>
-            </a>
-            <a href="deletar_jogo.php?id=<?php echo $item1['id'] ?>">Excluir</a>
-        <?php endforeach;?>
-        <a class="a" href="cadastrar_jogo.php">Cadastrar Jogo</a>
+        <a class="a" href=""><input type="button" value="Listar Jogos Cadastrados"></a>
+        <a class="a" href="cadastrar_jogo.php"><input type="button" value="Cadastrar Jogo"></a>
         
     <?php endif;?>
 
@@ -200,6 +180,9 @@ select {
 }
 
 a {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
     text-decoration: none;
     color: #333;
 }
