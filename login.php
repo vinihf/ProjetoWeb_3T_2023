@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['login'];
     $senha = $_POST['senha'];
 
-    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $sql = "SELECT * FROM users WHERE name = '$email'";
     $resultado = $conn->query($sql);
 
     $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -46,8 +46,8 @@ $conn -> close();
                     <h2>Login</h2>
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" name="login" required>
-                        <label for="">Email</label>
+                        <input type="text" name="login" required>
+                        <label for="">User</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed-outline"></ion-icon>
