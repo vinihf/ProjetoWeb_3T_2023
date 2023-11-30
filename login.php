@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['login'];
     $senha = $_POST['senha'];
 
-    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $sql = "SELECT * FROM users WHERE name = '$email'";
     $resultado = $conn->query($sql);
 
     $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
