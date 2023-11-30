@@ -6,10 +6,10 @@ if(!isset($_SESSION['id'])){
 }
 
 // Variável para armazenar a ordem atual
-$ordenacaoA = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'DESC';
-$ordenacaoD = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'ASC';
+$ordenacao = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'ASC';
 
-$sql = "SELECT *,items.id AS idt FROM items GROUP BY items.id;";
+
+$sql = "SELECT * FROM items;";
 $resultado = $conn->query($sql);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -21,9 +21,12 @@ $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 $jsonItems = json_encode($items);
 
 //ranking
-$sql_rankinglk = "  SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY likes $ordenacaoA, dislikes $ordenacaoA";
+$sql_rankinglk = "SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id
+WHERE ratings.user_id = {$_SESSION['id']} IS NOT NULL GROUP BY items.id, items.name HAVING COUNT(ratings.rating) ORDER BY dislikes $ordenacao, likes $ordenacao";
 $resultado = $conn->query($sql_rankinglk);
 $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +35,7 @@ $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Video-Game-Controller-Icon-D-Edit.svg/1200px-Video-Game-Controller-Icon-D-Edit.svg.png" type="image/x-icon">
     <title>Rate The Game</title>
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
     <header>
@@ -41,28 +45,30 @@ $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
     
     <label for="ordenacao">Ordem:</label>
     <select id="ordenacao" name="ordenacao" onchange="atualizarOrdenacao()">
-        <option value="DESC" <?php echo ($ordenacaoD == 'DESC') ? 'selected' : ''; ?>>Decrescente</option>
-        <option value="ASC" <?php echo ($ordenacaoA == 'ASC') ? 'selected' : ''; ?>>Crescente</option>
+        <option value="ASC" <?php echo ($ordenacao == 'ASC') ? 'selected' : ''; ?>>Decrescente</option>
+        <option value="DESC" <?php echo ($ordenacao == 'DESC') ? 'selected' : ''; ?>>Crescente</option>
+        
     </select>
 
-            <div class="box">
+    <?php if($items2 == null): ?>
+    <div class="box">
                 <h3>Ranking de Jogos</h3>
                 <?php foreach($items4 as $item) : ?>
                 <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
                 <h4><?php echo $item['name'] ?></h4>    
-                <?php endforeach; ?>
+                <?php endforeach;
+                endif; ?>
             </div>
+
+
         <?php if($_SESSION['tipo'] == "user") : ?>
          <?php foreach($items2 as $item) : ?>
         <div class="box">
         <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
         <p><?php echo $item['name']; ?></p>
-        <p> Categoria: <?php echo $item['categoria_nome']; ?></p>
-        <?php if ($_SESSION['tipo'] == "user" ) : ?>
             <!-- Botões de avaliação para usuários -->
-            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a>
-            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a>
-        <?php endif; ?>
+            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a><br>
+            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a><br>
     </div>
 <?php endforeach; ?>
 
@@ -122,85 +128,5 @@ $(document).ready(function() {
     }
 });
 </script>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-}
-
-.box {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 20px auto;
-    padding: 20px;
-    text-align: center;
-    max-width: 300px;
-}
-.box img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.box p {
-    margin-bottom: 10px;
-}
-
-input[type="button"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-select, label {
-    margin: 10px;
-}
-
-select {
-    padding: 5px;
-}
-
-a {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 3rem;
-    text-decoration: none;
-    color: #333;
-}
-
-a:hover {
-    color: #4CAF50;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-</style>
 </body>
 </html>

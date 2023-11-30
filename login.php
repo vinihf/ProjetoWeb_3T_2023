@@ -46,7 +46,7 @@ $conn -> close();
                     <h2>Login</h2>
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" name="login" required>
+                        <input type="text" name="login" required>
                         <label for="">Email</label>
                     </div>
                     <div class="inputbox">

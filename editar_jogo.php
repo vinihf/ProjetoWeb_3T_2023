@@ -9,8 +9,7 @@ if(!isset($_SESSION['id'])){
 
 $idItem = $_GET['id'];
 
-$sql_items = "SELECT items.*, categoria.nome as categoria_nome FROM items 
-              LEFT JOIN categoria ON items.id = categoria.iditems
+$sql_items = "SELECT items.* FROM items 
               WHERE items.id = $idItem GROUP BY items.name";
 $resultado = $conn->query($sql_items);
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
@@ -28,12 +27,8 @@ if (isset($_POST['salvar'])) {
             $resultado_update_items = $conn->query($sql_update_items);
 
             if ($resultado_update_items) {
-                // Atualizar categoria na tabela 'categoria'
-                $novaCategoria = $_POST['categoria'];
-                $sql_update_categoria = "UPDATE categoria SET nome = '$novaCategoria' WHERE iditems = $idItem";
-                $resultado_update_categoria = $conn->query($sql_update_categoria);
-
-                if ($resultado_update_categoria) {
+                // Atualizar categoria na tabela 'categoria'    
+                if ($resultado_update_items) {
                     header("location: index.php");
                 } else {
                     echo "Erro ao atualizar categoria: " . $conn->error;
