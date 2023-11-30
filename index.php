@@ -21,8 +21,7 @@ $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 $jsonItems = json_encode($items);
 
 //ranking
-$sql_rankinglk = "SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id
-WHERE ratings.user_id = {$_SESSION['id']} IS NOT NULL GROUP BY items.id, items.name HAVING COUNT(ratings.rating) ORDER BY dislikes $ordenacao, likes $ordenacao";
+$sql_rankinglk = "SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY dislikes $ordenacao, likes $ordenacao";
 $resultado = $conn->query($sql_rankinglk);
 $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -62,15 +61,13 @@ $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
 
 
         <?php if($_SESSION['tipo'] == "user") : ?>
-         <?php foreach($items2 as $item) : ?>
         <div class="box">
-        <img src="<?php echo $item['image_url']; ?>" alt="" width="250px">
-        <p><?php echo $item['name']; ?></p>
+        <img src="<?php echo $items2[0]['image_url']; ?>" alt="" width="250px">
+        <p><?php echo $items2[0]['name']; ?></p>
             <!-- Botões de avaliação para usuários -->
-            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a><br>
-            <a href="processar_rating.php?id=<?php echo $item['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a><br>
+            <a href="processar_rating.php?id=<?php echo $items2[0]['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a><br>
+            <a href="processar_rating.php?id=<?php echo $items2[0]['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a><br>
     </div>
-<?php endforeach; ?>
 
     <?php endif;?>
 
@@ -87,46 +84,7 @@ $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
     function atualizarOrdenacao() {
     const ordenacao = document.getElementById("ordenacao").value;
             window.location.href = "index.php?ordenacao=" + ordenacao;
-        }
-
-$(document).ready(function() {
-    let currentIndex = 0;
-    const items = <?php echo $jsonItems; ?>;
-
-    // Esconda todas as caixas, exceto a primeira
-    $(".box").hide();
-    $(".box").eq(currentIndex).show();
-
-    // Adicione um ouvinte de evento de clique aos botões
-    $(".box button").click(function() {
-        
-        $(".box").eq(currentIndex).hide();
-
-        // Incrementa o índice atual
-        currentIndex++;
-
-        // Se o próximo índice for maior ou igual ao número de itens, volte ao primeiro item
-        if (currentIndex >= items.length) {
-            currentIndex = 0;
-        }
-
-        // Mostre a próxima caixa
-        $(".box").eq(currentIndex).show();
-
-        // Atualize a imagem e o texto da caixa atual
-        showItem(currentIndex);
-    });
-
-    // Função para mostrar um item com base no índice
-    function showItem(index) {
-        const item = items[index];
-        if (item) {
-            const box = $(".box").eq(index);
-            box.find("img").attr("src", item.image_url);
-            box.find("p").text(item.name);
-        }
-    }
-});
+        }   
 </script>
 </body>
 </html>

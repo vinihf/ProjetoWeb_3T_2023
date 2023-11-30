@@ -47,7 +47,7 @@ $conn -> close();
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
                         <input type="text" name="login" required>
-                        <label for="">Email</label>
+                        <label for="">User</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed-outline"></ion-icon>
