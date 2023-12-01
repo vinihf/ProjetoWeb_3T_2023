@@ -10,9 +10,9 @@ O sistema deve possuir dois papéis para as pessoas que vão o utilizar com perm
 - [x] Criar e editar informações de pessoa usuária (e-mail, senha, nome)
 - [x] Fazer login e logout no sistema
 - [x] Classificar itens (Indicar se gosta de uma série, se comeria uma comida, etc).
-- [ ] Visualizar rankings dos itens classificados como mais queridos
-- [ ] Visualizar rankings dos itens classificados como menos queridos
-- [ ] Ordenar de forma crescente ou decrescente os rankings de classificações
+- [X] Visualizar rankings dos itens classificados como mais queridos
+- [X] Visualizar rankings dos itens classificados como menos queridos
+- [X] Ordenar de forma crescente ou decrescente os rankings de classificações
 
 #### Gerente
 - [x] A pessoa que será gerente deve ser cadastrada no banco previamente (user: admin e password: senha123)
@@ -27,8 +27,8 @@ Abaixo são especificadas regras que incidem sobre o usuo do sistema:
 - [x] O e-mail da pessoa usuária deve ser do domínio @aluno.feliz.ifrs.edu.br
 - [x] Um item consiste em uma imagem de algo
 - [x] O ranking deve ser ordenado pelo número de avaliações positivas ou negativas
-- [ ] O sistema deve iniciar com pelo menos 15 itens cadastrados
-- [ ] Uma pessoa só pode votar uma vez em cada item
+- [X] O sistema deve iniciar com pelo menos 15 itens cadastrados
+- [X] Uma pessoa só pode votar uma vez em cada item
 
 ### Instruções fundamentais
 - A entrega do projeto será realizada via repositório do github.
