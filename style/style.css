@@ -11,7 +11,10 @@ header {
     text-align: center;
     padding: 10px;
 }
-
+.box-container {
+    display: flex;
+    justify-content: space-around;
+}
 .box {
     background-color: white;
     border: 1px solid #ddd;

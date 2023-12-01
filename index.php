@@ -6,7 +6,7 @@ if(!isset($_SESSION['id'])){
 }
 
 // Variável para armazenar a ordem atual
-$ordenacao = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'ASC';
+$ordenacao = isset($_GET['ordenacao']) ? $_GET['ordenacao'] : 'DESC';
 
 
 $sql = "SELECT * FROM items;";
@@ -20,11 +20,14 @@ $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 
 $jsonItems = json_encode($items);
 
-//ranking
-$sql_rankinglk = "SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY dislikes $ordenacao, likes $ordenacao";
+//ranking likes
+$sql_rankinglk = "SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY likes $ordenacao";
 $resultado = $conn->query($sql_rankinglk);
 $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
-
+//ranking dislikes
+$sql_rankingdlk = "SELECT items.id,items.name,COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY dislikes $ordenacao";
+$resultado = $conn->query($sql_rankingdlk);
+$items5 = $resultado->fetch_all(MYSQLI_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -44,23 +47,32 @@ $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
     
     <label for="ordenacao">Ordem:</label>
     <select id="ordenacao" name="ordenacao" onchange="atualizarOrdenacao()">
-        <option value="ASC" <?php echo ($ordenacao == 'ASC') ? 'selected' : ''; ?>>Decrescente</option>
-        <option value="DESC" <?php echo ($ordenacao == 'DESC') ? 'selected' : ''; ?>>Crescente</option>
+        <option value="ASC" <?php echo ($ordenacao == 'ASC') ? 'selected' : ''; ?>>Crescente</option>
+        <option value="DESC" <?php echo ($ordenacao == 'DESC') ? 'selected' : ''; ?>>Decrescente</option>
         
     </select>
-
-    <?php if($items2 == null): ?>
-    <div class="box">
-                <h3>Ranking de Jogos</h3>
-                <?php foreach($items4 as $item) : ?>
-                <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
-                <h4><?php echo $item['name'] ?></h4>    
-                <?php endforeach;
-                endif; ?>
-            </div>
-
-
+    <div class="box-container">
+        <?php if($items2 == null): ?>
+        <div class="box">
+                    <h3>Ranking de Jogos mais Queridos</h3>
+                    <?php foreach($items4 as $item) : ?>
+                    <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
+                    <h4><?php echo $item['name'] ?></h4>    
+                    <?php endforeach;
+                    endif; ?>
+                </div>
+                <?php if($items5 != null): ?>
+                    <div class="box">
+                    <h3>Ranking de Jogos menos Queridos</h3>
+                    <?php foreach($items5 as $item) : ?>
+                    <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
+                    <h4><?php echo $item['name'] ?></h4>    
+                    <?php endforeach;
+                    endif; ?>
+                </div>
+        </div>
         <?php if($_SESSION['tipo'] == "user") : ?>
+            <?php if(!empty($items2)) : ?>
         <div class="box">
         <img src="<?php echo $items2[0]['image_url']; ?>" alt="" width="250px">
         <p><?php echo $items2[0]['name']; ?></p>
@@ -70,7 +82,7 @@ $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
     </div>
 
     <?php endif;?>
-
+    <?php endif;?>
     <?php if($_SESSION['tipo'] == 'manager') :?>
         <a class="a" href=""><input type="button" value="Listar Jogos Cadastrados"></a>
         <a class="a" href="cadastrar_jogo.php"><input type="button" value="Cadastrar Jogo"></a>
