@@ -25,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Senha incorreta.";
             }
         }
+        $conn-> close();
     }
-$conn -> close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +54,7 @@ $conn -> close();
                         <input type="password" name="senha" required>
                         <label for="">Senha</label>
                     </div>
-                    <button>Log in</button>
+                    <button onclick="redirectToIndex()">Log in</button>
                     <div class="register">
                        
                         <p><a href="register.php">Fazer Registro</a></p>
@@ -62,6 +62,11 @@ $conn -> close();
                 </form>
             </div>
         </div>
+        <script>
+            function redirectToIndex() {
+                window.location.href = 'index.php';
+            }
+        </script>
     </section>
 </body>
 </html>
