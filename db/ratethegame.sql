@@ -1,4 +1,4 @@
--- phpMyAdmin SQL Dump
+  -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
@@ -72,19 +72,19 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `name`, `image_url`) VALUES
 (4, 'GTA V', 'uploads/6566b17d791be_imagem_2023-11-29_003421220.png'),
 (5, 'The Witcher 3: Wild Hunt', 'uploads/6566b19ed1ce8_imagem_2023-11-29_003557857.png'),
-(6, 'Minecraft', ''),
-(7, 'FIFA 21', ''),
-(8, 'Call of Duty: Warzone', ''),
-(9, 'Assassin\'s Creed Valhalla', ''),
-(10, 'Red Dead Redemption 2', ''),
-(11, 'Cyberpunk 2077', ''),
-(12, 'Among Us', ''),
-(13, 'Animal Crossing: New Horizons', ''),
-(14, 'League of Legends', ''),
-(15, 'Resident Evil Village', ''),
-(16, 'Super Mario Odyssey', ''),
-(17, 'Fortnite', ''),
-(18, 'Valorant', '');
+(6, 'Minecraft', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOeGlFDL1furAXFVJ5R9A0qHiXX5OQrRr86A&usqp=CAU'),
+(7, 'FIFA 21', 'https://cdn.folhape.com.br/img/pc/1100/1/dn_arquivo/2020/10/fifa-21-intros.jpg'),
+(8, 'Call of Duty: Warzone', 'https://image.api.playstation.com/vulcan/ap/rnd/202306/2400/e5cf467175f4a1455ce65b4688952b391d3e15bde9114698.png'),
+(9, "Assassin\'s Creed Valhalla", 'https://m.media-amazon.com/images/I/91lmTAVXgHL._AC_UF1000,1000_QL80_.jpg'),
+(10, 'Red Dead Redemption 2', 'https://image.api.playstation.com/cdn/UP1004/CUSA03041_00/Hpl5MtwQgOVF9vJqlfui6SDB5Jl4oBSq.png'),
+(11, 'Cyberpunk 2077', 'https://cdn1.epicgames.com/offer/77f2b98e2cef40c8a7437518bf420e47/EGS_Cyberpunk2077_CDPROJEKTRED_S1_03_2560x1440-359e77d3cd0a40aebf3bbc130d14c5c7'),
+(12, 'Among Us', 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/software/switch/70010000036098/758ab0b61205081da2466386940752c70e0e5ea43bd39e8b9b13eaa455c69b7e'),
+(13, 'Animal Crossing: New Horizons', 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000027619/9989957eae3a6b545194c42fec2071675c34aadacd65e6b33fdfe7b3b6a86c3a'),
+(14, 'League of Legends', 'https://sm.ign.com/ign_br/game/l/league-of-/league-of-legends_d152.jpg'),
+(15, 'Resident Evil Village', 'https://image.api.playstation.com/vulcan/ap/rnd/202101/0812/uAhJNbCgYUmUOuCDiMNXtYBC.png'),
+(16, 'Super Mario Odyssey', 'https://http2.mlstatic.com/D_NQ_NP_970852-MLB71008451611_082023-O.webp'),
+(17, 'Fortnite', 'https://cdn2.unrealengine.com/blade-2560x1440-2560x1440-6b1174ff6f66.jpg'),
+(18, 'Valorant', 'https://s2-ge.glbimg.com/CnHlwtKtIAGBtwvbTxMKJrOtWPU=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_bc8228b6673f488aa253bbcb03c80ec5/internal_photos/bs/2020/4/G/xXHeVfTGe4bMldoEdMRQ/valorant-riot-games.jpg');
 
 -- --------------------------------------------------------
 

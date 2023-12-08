@@ -61,7 +61,7 @@ $conn->close();
                     </div>
                     <button name="bttn">Registro</button>
                     <div class="register">
-                        <p>Ja tem conta? Faça <a href="login.php">Login</a></p>
+                        <p>Ja tem conta? <a href="login.php"> Faça Login</a></p>
                     </div>
                 </form>
             </div>

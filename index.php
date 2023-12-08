@@ -1,7 +1,7 @@
 <?php
 include "db/database.php";
 
-if(!isset($_SESSION['id'])){
+if (!isset($_SESSION['id'])) {
     header('location:login.php');
 }
 
@@ -32,6 +32,7 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,19 +40,36 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
     <title>Rate The Game</title>
     <link rel="stylesheet" href="style/style.css">
 </head>
+
 <body>
     <header>
         <h1>Rate The Game</h1>
-        <a href="logout.php"><input type="button" value="Logout" name="logout"></a>
+        <a class="logout" href="logout.php"><input type="button" value="Logout" name="logout"></a>
         <a href="perfil.php"><input type="button" value="Perfil" name="logout"></a>
     </header>
-    
+
     <label for="ordenacao">Ordem:</label>
     <select id="ordenacao" name="ordenacao" onchange="atualizarOrdenacao()">
         <option value="ASC" <?php echo ($ordenacao == 'ASC') ? 'selected' : ''; ?>>Crescente</option>
         <option value="DESC" <?php echo ($ordenacao == 'DESC') ? 'selected' : ''; ?>>Decrescente</option>
-        
+
     </select>
+    <?php if ($_SESSION['tipo'] == "user") : ?>
+        <?php if (!empty($items2)) : ?>
+            <div class="vote-box">
+                <img src="<?php echo $items2[0]['image_url']; ?>" alt="" width="250px">
+                <p><?php echo $items2[0]['name']; ?></p>
+                <!-- Botões de avaliação para usuários -->
+                <div class="vote-bt">
+                    <a class="input-vote" href="processar_rating.php?id=<?php echo $items2[0]['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a><br>
+                    <a class="input-vote" href="processar_rating.php?id=<?php echo $items2[0]['id_item']; ?>&&tipo=1"><input type="button" value="❤️"></a><br>
+
+                </div>
+            </div>
+            </div>
+
+        <?php endif; ?>
+    <?php endif; ?>
     <div class="box-container">
         <?php if($items2 == null): ?>
         <div class="box">
@@ -75,33 +93,21 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
                     <?php endforeach;
                     endif; ?>
                 </div>
-        </div>
-        <?php if($_SESSION['tipo'] == "user") : ?>
-            <?php if(!empty($items2)) : ?>
-        <div class="box">
-        <img src="<?php echo $items2[0]['image_url']; ?>" alt="" width="250px">
-        <p><?php echo $items2[0]['name']; ?></p>
-            <!-- Botões de avaliação para usuários -->
-            <a href="processar_rating.php?id=<?php echo $items2[0]['id_item']; ?>&&tipo=1"><input type="button" value="✅"></a><br>
-            <a href="processar_rating.php?id=<?php echo $items2[0]['id_item']; ?>&&tipo=2"><input type="button" value="❌"></a><br>
     </div>
-
-    <?php endif;?>
-    <?php endif;?>
     <?php if($_SESSION['tipo'] == 'manager') :?>
         <a class="a" href="jogos_cadastrados.php"><input type="button" value="Listar Jogos Cadastrados"></a>
         <a class="a" href="cadastrar_jogo.php"><input type="button" value="Cadastrar Jogo"></a>
-        
-    <?php endif;?>
+
+    <?php endif; ?>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    
-    function atualizarOrdenacao() {
-    const ordenacao = document.getElementById("ordenacao").value;
+    <script>
+        function atualizarOrdenacao() {
+            const ordenacao = document.getElementById("ordenacao").value;
             window.location.href = "index.php?ordenacao=" + ordenacao;
-        }   
-</script>
+        }
+    </script>
 </body>
+
 </html>
