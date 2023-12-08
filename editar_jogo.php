@@ -29,7 +29,7 @@ if (isset($_POST['salvar'])) {
             if ($resultado_update_items) {
                 // Atualizar categoria na tabela 'categoria'    
                 if ($resultado_update_items) {
-                    header("location: index.php");
+                    header("location: jogos_cadastrados.php");
                 } else {
                     echo "Erro ao atualizar categoria: " . $conn->error;
                 }
@@ -61,13 +61,11 @@ if (isset($_POST['salvar'])) {
             </div>
         </header>
         <?php foreach($items as $item) : ?>
+        <img class="imgjogo" src="<?php echo $item['image_url']; ?>" alt="">
         <label for="name">Nome:</label>
         <input type="text" name="name" value = "<?php echo $item['name']; ?>"><br>
         <label for="imagem">Imagem do Jogo:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
-        <label for="categoria">Categoria:</label>
-        <input type="text" name="categoria" placeholder="<?php echo $item['categoria_nome']; ?>"><br>
-
         <input type="submit" name="salvar" value="Salvar Edições">
         <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
         <?php endforeach;?>
@@ -75,6 +73,11 @@ if (isset($_POST['salvar'])) {
 </body>
 </html>
 <style>
+    .imgjogo{
+        width: 50%;
+        align-self: center;
+    }
+    
     body {
     font-family: Arial, sans-serif;
     margin: 0;

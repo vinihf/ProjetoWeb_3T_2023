@@ -21,11 +21,11 @@ $items2 = $resultado->fetch_all(MYSQLI_ASSOC);
 $jsonItems = json_encode($items);
 
 //ranking likes
-$sql_rankinglk = "SELECT items.id, items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY likes $ordenacao";
+$sql_rankinglk = "SELECT items.id, items.image_url,items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes,COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id WHERE rating = 'like' GROUP BY items.id, items.name ORDER BY likes {$ordenacao}";
 $resultado = $conn->query($sql_rankinglk);
 $items4 = $resultado->fetch_all(MYSQLI_ASSOC);
 //ranking dislikes
-$sql_rankingdlk = "SELECT items.id,items.name,COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes FROM items LEFT JOIN ratings ON items.id = ratings.item_id GROUP BY items.id, items.name ORDER BY dislikes $ordenacao";
+$sql_rankingdlk = "SELECT items.id,items.image_url,items.name, COALESCE(SUM(CASE WHEN ratings.rating = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes,COALESCE(SUM(CASE WHEN ratings.rating = 'like' THEN 1 ELSE 0 END), 0) AS likes FROM items LEFT JOIN ratings ON items.id = ratings.item_id WHERE rating = 'dislike' GROUP BY items.id, items.name HAVING dislikes >= 1 ORDER BY dislikes {$ordenacao}";
 $resultado = $conn->query($sql_rankingdlk);
 $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
 
@@ -43,6 +43,7 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
     <header>
         <h1>Rate The Game</h1>
         <a href="logout.php"><input type="button" value="Logout" name="logout"></a>
+        <a href="perfil.php"><input type="button" value="Perfil" name="logout"></a>
     </header>
     
     <label for="ordenacao">Ordem:</label>
@@ -54,19 +55,23 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
     <div class="box-container">
         <?php if($items2 == null): ?>
         <div class="box">
-                    <h3>Ranking de Jogos mais Queridos</h3>
+                    <h3>Jogos mais Queridos</h3>
                     <?php foreach($items4 as $item) : ?>
-                    <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
-                    <h4><?php echo $item['name'] ?></h4>    
+                    <img src="<?php echo $item['image_url'];?>" alt="" width="250px">
+                    <h4><?php echo $item['name'] ?></h4>
+                    <h4>Likes: <?php echo $item['likes'] ?></h4>   
+                    <h4>Dislikes: <?php echo $item['dislikes'] ?></h4>
                     <?php endforeach;
                     endif; ?>
                 </div>
-                <?php if($items5 != null): ?>
+                <?php if($items2 == null): ?>
                     <div class="box">
-                    <h3>Ranking de Jogos menos Queridos</h3>
+                    <h3>Jogos menos Queridos</h3>
                     <?php foreach($items5 as $item) : ?>
-                    <img src="<?php echo $item[0]['image_url'];  ?>" alt="" width="250px">
+                    <img src="<?php echo $item['image_url'];?>" alt="" width="250px" >
                     <h4><?php echo $item['name'] ?></h4>    
+                    <h4>Likes: <?php echo $item['likes'] ?></h4>   
+                    <h4>Dislikes: <?php echo $item['dislikes'] ?></h4>
                     <?php endforeach;
                     endif; ?>
                 </div>
@@ -84,7 +89,7 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
     <?php endif;?>
     <?php endif;?>
     <?php if($_SESSION['tipo'] == 'manager') :?>
-        <a class="a" href=""><input type="button" value="Listar Jogos Cadastrados"></a>
+        <a class="a" href="jogos_cadastrados.php"><input type="button" value="Listar Jogos Cadastrados"></a>
         <a class="a" href="cadastrar_jogo.php"><input type="button" value="Cadastrar Jogo"></a>
         
     <?php endif;?>

@@ -25,21 +25,58 @@ $conn->close();
 ?>
 <!DOCTYPE html>
 <html>
+    <link rel="stylesheet" href="style/style.css">
 <head>
     <title>Alterar Nome e Senha</title>
+    <div class="logout">
+    
+    </div>
 </head>
 <body>
     <h1>Alterar Nome e Senha</h1>
     <form action="" method="post">
         <label for="new_name">Novo Nome:</label>
-        <input type="text" name="new_name" required><br>
+        <input type="text" name="new_name" value="<?php echo $_SESSION['nome']; ?>" required><br>
         <label for="new_password">Nova Senha:</label>
         <input type="password" name="new_password" required><br>
-        <input type="submit" value="Alterar" name='save'>
+        <div class="logout">
+        <a href="index.php"><button>Voltar</button></a>
+        <input class="alterar" type="submit" value="Alterar" name='save'>
+        
+        </div>
+        
     </form>
 </body>
 </html>
 <style>
+    .alterar{
+        width: 50%;
+    }
+    .logout{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        height: 50px;
+    }
+    button{
+        background: #0074d9;
+        border: none;
+        color: white;
+        text-align: center;
+    }
+    a{
+       background: #0074d9;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 20px 0 0 0;
+
+        
+    }
         body {
             font-family: Arial, sans-serif;
             background-color: #f3f3f3;
@@ -68,7 +105,7 @@ $conn->close();
             margin-top: 10px;
         }
         input {
-            width: 100%;
+            width: 90%;
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -79,6 +116,8 @@ $conn->close();
             color: #fff;
             border: none;
             padding: 10px 20px;
+            width: 30%;
+            height: 75%;
             margin-top: 20px;
             border-radius: 5px;
             cursor: pointer;

@@ -29,12 +29,28 @@ $conn->close();
     </header>
 <body>
 <?php foreach($items as $item) : ?>
+    <div class="box-container">
+    <div class="box">
     <a href="editar_jogo.php?id=<?php echo $item['id']; ?>">
         <img src="<?php echo $item['image_url']; ?>" alt="">
-        <p><?php echo $item['name']; ?></p>
+        
     </a>
-
-
+    <div class="ps">
+    <p><?php echo $item['name']; ?></p>
+    <a href="deletar_jogo.php?id=<?php echo $item['id']; ?>">Deletar</a>
+    </div>
+    </div>
+    </div>
 <?php endforeach; ?>
 </body>
+<style>
+    .box{
+        display: flex;
+        flex-direction: column;
+    }]
+    .ps{
+        display: flex;
+        width: 100%;
+    }
+</style>
 </html>

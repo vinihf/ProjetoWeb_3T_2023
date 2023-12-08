@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($senha, $hashSenhaArmazenada)) {
                 $_SESSION['id'] = $usuarios[0]['id'];
                 $_SESSION['tipo'] = $usuarios[0]['role'];
+                $_SESSION['nome'] = $usuarios[0]['name'];
                 header("location: index.php");
                 exit();
             } else {
@@ -47,7 +48,7 @@ $conn -> close();
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
                         <input type="text" name="login" required>
-                        <label for="">User</label>
+                        <label for="">Usuário</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed-outline"></ion-icon>
