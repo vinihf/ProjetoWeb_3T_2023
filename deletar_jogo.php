@@ -11,8 +11,6 @@ $resultado = $conn->query($sql);
 
 $items = $resultado->fetch_all(MYSQLI_ASSOC);
 if(isset($_POST['sim'])){
-    $sql_dl = "DELETE from categoria WHERE iditems = {$_GET['id']}";
-    $resultado = $conn->query($sql_dl);
     $sql_dlts = "DELETE FROM ratings WHERE item_id = {$_GET['id']}";
     $resultado = $conn->query($sql_dlts);
     $sql_dlt = "DELETE FROM items WHERE id = {$_GET['id']}";
@@ -38,7 +36,8 @@ if(isset($_POST['sim'])){
         <?php endforeach; ?>
     </div>
     <button name='sim'>Sim</button>
-    <a href="index.php"><input type="button" value="não"></a>
+    <a class="a" href="jogos_cadastrados.php"><input type="button" value="não"></a>
     </form>
 </body>
 </html>
+<style>

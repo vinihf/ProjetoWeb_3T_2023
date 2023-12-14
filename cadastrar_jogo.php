@@ -3,7 +3,6 @@ require_once("db/database.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['name'];
-    $categoria = $_POST['categoria']; 
 
     $sql_verificacao = "SELECT * FROM items WHERE name = '$nome'";
     $resultado_verificacao = $conn->query($sql_verificacao);
@@ -30,11 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      if ($resultado_get_id && $resultado_get_id->num_rows > 0) {
         $row = $resultado_get_id->fetch_assoc();
         $idItemInserido = $row['id'];
-
-        // Inserção na tabela 'categoria'
-        $sql_inserir_categoria = "INSERT INTO categoria (nome, iditems) VALUES ('$categoria', '$idItemInserido')";
-        $resultado_inserir_categoria = $conn->query($sql_inserir_categoria);
-
       
     } else {
         echo "Erro ao buscar o ID do item inserido: " . $conn->error;
@@ -44,15 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
-            if ($resultado_verificacao) {
-                
-                $idItemInserido = $conn->insert_id;
-
-                // Inserção na tabela 'categoria'
-                $sql_inserir_categoria = "INSERT INTO categoria (nome, iditems) VALUES ('$categoria', '$idItemInserido')";
-                $resultado_inserir_categoria = $conn->query($sql_inserir_categoria);
-
-                if ($resultado_inserir_categoria) {
+            if($resultado_inserir_item) {
                     header("location: index.php");
                 } else {
                     echo "Erro ao cadastrar categoria: " . $conn->error;
@@ -62,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-}
+
 ?>
 
 
@@ -88,8 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="imagem">Imagem do Jogo:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
         
-        <label for="categoria">Categoria:</label>
-        <input type="text" name="categoria" required><br>
         <input type="submit" value="Cadastrar">
 
         <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>

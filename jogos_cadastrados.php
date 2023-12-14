@@ -26,6 +26,7 @@ $conn->close();
     <header>
         <h1>Rate The Game</h1>
         <a href="logout.php"><input type="button" value="Logout" name="logout"></a>
+        <a href="index.php"><input type="button" value="Voltar"></a>
     </header>
 <body>
 <?php foreach($items as $item) : ?>
@@ -37,20 +38,20 @@ $conn->close();
     </a>
     <div class="ps">
     <p><?php echo $item['name']; ?></p>
-    <a href="deletar_jogo.php?id=<?php echo $item['id']; ?>">Deletar</a>
+    <a class="a" href="deletar_jogo.php?id=<?php echo $item['id']; ?>">Deletar</a>
     </div>
     </div>
     </div>
 <?php endforeach; ?>
 </body>
 <style>
-    .box{
-        display: flex;
-        flex-direction: column;
-    }]
-    .ps{
-        display: flex;
-        width: 100%;
+    .a{
+        color: black;
+        font-size: 21px;
+        border: 1px black solid;
+        border-radius: 9px;
+        background-color:oldlace;
+        backdrop-filter: blur(10px);
     }
 </style>
 </html>

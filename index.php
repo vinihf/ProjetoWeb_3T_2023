@@ -45,7 +45,7 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
     <header>
         <h1>Rate The Game</h1>
         <a class="logout" href="logout.php"><input type="button" value="Logout" name="logout"></a>
-        <a href="perfil.php"><input type="button" value="Perfil" name="logout"></a>
+       <?php if ($_SESSION['tipo'] == 'user') : ?> <a href="perfil.php"><input type="button" value="Perfil" name="logout"></a> <?php endif; ?>
     </header>
 
     <label for="ordenacao">Ordem:</label>
@@ -95,6 +95,24 @@ $items5 = $resultado->fetch_all(MYSQLI_ASSOC);
                 </div>
     </div>
     <?php if($_SESSION['tipo'] == 'manager') :?>
+        <div class="box">
+                    <h3>Jogos mais Queridos</h3>
+                    <?php foreach($items4 as $item) : ?>
+                    <img src="<?php echo $item['image_url'];?>" alt="" width="250px">
+                    <h4><?php echo $item['name'] ?></h4>
+                    <h4>Likes: <?php echo $item['likes'] ?></h4>   
+                    <h4>Dislikes: <?php echo $item['dislikes'] ?></h4>
+                    <?php endforeach;?>
+                </div>
+                    <div class="box">
+                    <h3>Jogos menos Queridos</h3>
+                    <?php foreach($items5 as $item) : ?>
+                    <img src="<?php echo $item['image_url'];?>" alt="" width="250px" >
+                    <h4><?php echo $item['name'] ?></h4>    
+                    <h4>Likes: <?php echo $item['likes'] ?></h4>   
+                    <h4>Dislikes: <?php echo $item['dislikes'] ?></h4>
+                    <?php endforeach;?>
+                </div>
         <a class="a" href="jogos_cadastrados.php"><input type="button" value="Listar Jogos Cadastrados"></a>
         <a class="a" href="cadastrar_jogo.php"><input type="button" value="Cadastrar Jogo"></a>
 
